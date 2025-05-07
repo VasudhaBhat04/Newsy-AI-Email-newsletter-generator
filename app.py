@@ -2,8 +2,6 @@ import streamlit as st
 import google.generativeai as genai  
 from apikey import google_gemini_api_key  
 
-
-
 genai.configure(api_key=google_gemini_api_key)
 
 st.set_page_config(layout="wide")
@@ -20,10 +18,8 @@ with st.sidebar:
     "Select the tone of your newsletter:",
     ["Promotional", "Educational", "Community-Focused"]
 )
-
-                         
+                       
     num_words = st.slider("Number of words", min_value=250, max_value=5000, step=250, value=500)
- 
     submit_button = st.button("Generate")
 
 def generate_newsletter(title, keywords, word_count,tone):
@@ -43,14 +39,14 @@ Choose the tone of the newsletter:
 
 The tone of the newsletter should align with the selected choice and be suitable for an online audience. Use the tone input as: '{tone}'.
 """
+    
     model = genai.GenerativeModel("gemini-1.5-flash")
     response = model.generate_content(prompt)
     return response.text
-
 
 if submit_button:
     with st.spinner("Generating your newsletter..."):
         newsletter = generate_newsletter(email_title, keywords, num_words,tone)
         st.markdown(newsletter)  
 
-        
+ # st.download_button(" Download Newsletter", newsletter, file_name="generated_content.md")  
